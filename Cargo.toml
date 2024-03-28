@@ -1,5 +1,6 @@
 [package]
 name = "rmbg"
+description = "Rust interface for BRIA Background Removal v1.4 Model Library"
 version = "0.1.0"
 edition = "2021"
 license-file = "LICENSE"
