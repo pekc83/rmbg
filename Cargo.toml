@@ -2,6 +2,11 @@
 name = "rmbg"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+repository = "https://github.com/pekc83/rmbg"
+readme = "README.md"
+categories = ["multimedia::images"]
+keywords = ["background-removal", "machine-learning", "onnx"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

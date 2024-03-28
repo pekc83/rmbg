@@ -3,6 +3,9 @@
 This crate provides an easy-to-use interface for removing backgrounds from images, leveraging a machine learning model.
 It's designed to integrate seamlessly into Rust projects requiring background removal capabilities.
 
+Rust docs: https://docs.rs/rmbg/latest/rmbg/struct.Rmbg.html
+Crates.io: https://crates.io/crates/rmbg
+
 ## Features
 
 - Load and apply a machine learning model to remove backgrounds from images.
@@ -79,3 +82,11 @@ fn main() -> anyhow::Result<()> {
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+### Model License
+
+The model.onnx file used by this crate is subject to its own license terms. The model is released under the
+bria-rmbg-1.4 license, which is a Creative Commons license for non-commercial use only. Commercial use of the model
+requires a commercial agreement with BRIA.
+
+Please ensure you comply with the model's license terms when using it in your projects.
