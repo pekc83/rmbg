@@ -10,16 +10,65 @@ const ML_MODEL_IMAGE_HEIGHT: u32 = 1024;
 const ML_MODEL_INPUT_NAME: &str = "input";
 const ML_MODEL_OUTPUT_NAME: &str = "output";
 
+/// A struct for removing backgrounds from images using a machine learning model.
+///
+/// This struct encapsulates functionality to load a machine learning model
+/// for image processing and provides an interface to remove the background
+/// from given images.
 pub struct Rmbg {
     model: ort::Session,
 }
 
 impl Rmbg {
+    /// Constructs a new `Rmbg` instance by loading a machine learning model from the specified path.
+    ///
+    /// The function takes a path to the machine learning model file (typically an ONNX model)
+    /// and attempts to load it into an `ort::Session`. If successful, it returns an `Rmbg` instance
+    /// encapsulating this session for further image processing.
+    ///
+    /// # Arguments
+    ///
+    /// * `model_path` - A path to the machine learning model file.
+    ///
+    /// # Returns
+    ///
+    /// If successful, returns `Ok(Self)` containing a new `Rmbg` instance.
+    /// Returns `Err(ort::Error)` if the model cannot be loaded.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use rmbg::Rmbg;
+    /// let rmbg = Rmbg::new("path/to/model.onnx").expect("Failed to load model");
+    /// ```
     pub fn new(model_path: impl AsRef<Path>) -> Result<Self, ort::Error> {
         let model = ort::Session::builder()?.commit_from_file(model_path)?;
         Ok(Rmbg { model })
     }
 
+    /// Removes the background from a given image using the loaded machine learning model.
+    ///
+    /// This method processes the input image, applies the model, and generates an output image
+    /// where the background has been removed. The resulting image maintains the original dimensions
+    /// but with the background replaced by transparency.
+    ///
+    /// # Arguments
+    ///
+    /// * `original_img` - A reference to the `DynamicImage` to process.
+    ///
+    /// # Returns
+    ///
+    /// Returns `Ok(DynamicImage)` containing the processed image without a background.
+    /// Returns `Err(anyhow::Error)` if the image processing fails at any step.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use rmbg::Rmbg;
+    /// let original_img = image::open("path/to/image.png").expect("Failed to open image");
+    /// let rmbg = Rmbg::new("path/to/model.onnx").expect("Failed to load model");
+    /// let img_without_bg = rmbg.remove_background(&original_img).expect("Failed to remove background");
+    /// ```
     pub fn remove_background(&self, original_img: &DynamicImage) -> anyhow::Result<DynamicImage> {
         let img = preprocess_image(original_img)?;
 
